@@ -598,18 +598,26 @@ class EfdClient:
         return pd.DataFrame(vals, index=df.index)
 
     async def _is_topic_valid(self, topic: str) -> bool:
-        """Given a topic return true if topic is valid:
-            - exists in the cached list of topic available
-        Any other case returns false
-
+        """Check if the specified topic is in the schema.
+        
+        A topic is valid and returns ``True`` if it is in the cached list of
+        topics. Any other case returns ``False``.
+        
         Parameters
         ----------
         topic : `str`
-            The name of the topic to look for
+            The name of the topic to look for.
+            
         Returns
         -------
-            A boolean indicating if the topic is valid
+        is_valid : `bool`
+            A boolean indicating if the topic is valid.
         """
+        if self._topics is None:
+            self._topics = await self.get_topics()
+        if topic not in self._topics:
+            return False
+        return True
         if self._topics is None:
             self._topics = await self.get_topics()
         if topic not in self._topics:
