@@ -603,10 +603,11 @@ class EfdClient:
         Any other case returns false
 
         Parameters
-        __________
+        ----------
         topic : `str`
             The name of the topic to look for
-        returns:
+        Returns
+        -------
             A boolean indicating if the topic is valid
         """
         if self._topics is None:
